@@ -1,19 +1,30 @@
-var Ctrl = angular.module('app.controllers', []);
+var Ctrl = angular.module('app.controllers', ["ionic"]);
 
-var CityCtrl = function ($scope, $state, $stateParams, CitySvc) {
-    $scope.city = "";
+var CityCtrl = function ($scope, $state, $stateParams, $ionicPopup, CitySvc) {
     $scope.weather = "";
-    $scope.cities = ["singapore", "london"];
+    $scope.cities = ["Singapore", "London"];
+    for (var i =0; i < $scope.cities.length; i++) {
+        CitySvc.add($scope.cities[i]);
+    }
 
     $scope.add = function () {
-        CitySvc.add($scope.city);
-        $scope.city = "";
-        $scope.cities = CitySvc.getAll();
-    }
+        $ionicPopup.prompt({
+            title: "Add a city",
+            inputType: "text",
+            inputPlaceholder: "City name"
+        }).then(function (result) {
+            if (result && $scope.cities.indexOf(result) < 0) {
+                CitySvc.add(result);
+                console.info($scope.cities);
+                $scope.cities = CitySvc.getAll();
+                console.info($scope.cities);
+            }
+        })
+    };
 
     $scope.showWeather = function (c) {
         $state.go("weather", {city: c});
-    }
+    };
 };
 
 var WeatherCtrl = function ($scope, $state, $stateParams, WeatherSvc) {
@@ -28,4 +39,4 @@ var WeatherCtrl = function ($scope, $state, $stateParams, WeatherSvc) {
 };
 
 Ctrl.controller("WeatherCtrl", ["$scope", "$state", "$stateParams", "WeatherSvc", WeatherCtrl]);
-Ctrl.controller("CityCtrl", ["$scope", "$state", "$stateParams", "CitySvc", CityCtrl]);
+Ctrl.controller("CityCtrl", ["$scope", "$state", "$stateParams", "$ionicPopup", "CitySvc", CityCtrl]);
