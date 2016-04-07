@@ -1,0 +1,20 @@
+{
+  "name": "madh5-day2-workshop03-Weather",
+  "homepage": "https://github.com/choozm/madh5-day2-workshop03-Weather",
+  "authors": [
+    "Choo Zhi Min <choozhimin@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ionic": "^1.2.4"
+  }
+}
